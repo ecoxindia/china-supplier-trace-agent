@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 st.set_page_config(page_title="China Supplier Trace Agent", layout="wide")
-st.title("?? China Supplier Search and DNS Trace Agent")
+st.title("🔍 China Supplier Search and DNS Trace Agent")
 
 # Sidebar Inputs
 st.sidebar.header("Search Parameters")
@@ -57,7 +57,7 @@ def scrape_made_in_china(query):
 
 # Main logic
 if start_search and product_name:
-    st.info("?? Starting search...")
+    st.info("🔄 Starting search...")
     df_rows = []
     query = f"{product_name} {product_spec} {hs_code}"
 
@@ -65,16 +65,16 @@ if start_search and product_name:
         try:
             rows = scrape_made_in_china(query)
             df_rows.extend(rows)
-            st.success(f"? Found {len(rows)} suppliers on Made-in-China")
+            st.success(f"✅ Found {len(rows)} suppliers on Made-in-China")
         except Exception as e:
             st.error(f"Error scraping Made-in-China: {e}")
 
     if set(directories) & {"Alibaba", "GlobalSources", "1688", "HC360"}:
-        st.warning("?? Additional scrapers not implemented yet.")
+        st.warning("⚠️ Additional scrapers not implemented yet.")
 
     if df_rows:
         df = pd.DataFrame(df_rows)
         st.dataframe(df)
-        st.download_button("?? Download CSV", df.to_csv(index=False).encode('utf-8'), "results.csv")
+        st.download_button("📥 Download CSV", df.to_csv(index=False).encode('utf-8'), "results.csv")
 else:
     st.info("Enter product details and click 'Start Search'.")
